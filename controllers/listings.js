@@ -27,14 +27,17 @@ module.exports.ViewListing = async (req, res) => {
 };
 
 module.exports.CreateListing = async (req, res) => {
+  console.time("mapbox-geocode");
   let response = await geocodingClient.forwardGeocode({
     query: req.body.listing.location,
     limit: 1
   })
-    .send()
-
+  .send();
+  console.timeEnd("mapbox-geocode");
+  console.time("cloudinary-upload");
   let url = req.file.path;
   let filename = req.file.filename;
+  console.timeEnd("cloudinary-upload");
 
   let newlisting = new Listing(req.body.listing);
   newlisting.owner = req.user._id;
@@ -42,7 +45,9 @@ module.exports.CreateListing = async (req, res) => {
 
   newlisting.geometry = response.body.features[0].geometry;
   
+  console.time("mongo-save");
   await newlisting.save();
+  console.timeEnd("mongo-save");
 
   req.flash("success", " New Listing Created ");
   res.redirect("/listings");
