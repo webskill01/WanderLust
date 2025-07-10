@@ -1,5 +1,5 @@
-if(process.env.NODE_ENVv != "prodution"){
-  require('dotenv').config()
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
 }
 const express = require("express");
 const app = express();
@@ -105,9 +105,19 @@ app.use("/", userRouter);
 //   res.send(registeredUser)
 // })
 
+app.get("/",(req,res)=>{
+  res.redirect("/listings")
+})
+
 //error handling for all non-existent pages
 app.all(/.*/, (req, res, next) => {
   next(new expressError(404, "page not found"));
+});
+
+app.use((err, req, res, next) => {
+  console.error("UNHANDLED ERROR:", err);
+  let { statuscode = 500, message = "Something went wrong" } = err;
+  res.status(statuscode).render("error.ejs", { message });
 });
 
 //error handling middleware

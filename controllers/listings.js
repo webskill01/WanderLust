@@ -27,30 +27,33 @@ module.exports.ViewListing = async (req, res) => {
 };
 
 module.exports.CreateListing = async (req, res) => {
-  console.time("mapbox-geocode");
+  try{
   let response = await geocodingClient.forwardGeocode({
     query: req.body.listing.location,
     limit: 1
   })
   .send();
-  console.timeEnd("mapbox-geocode");
-  console.time("cloudinary-upload");
   let url = req.file.path;
   let filename = req.file.filename;
-  console.timeEnd("cloudinary-upload");
-
+  
   let newlisting = new Listing(req.body.listing);
   newlisting.owner = req.user._id;
   newlisting.image = {url,filename};
 
+  if (!response.body.features.length) {
+    throw new Error("Invalid location — no geocode result");
+  }
   newlisting.geometry = response.body.features[0].geometry;
   
-  console.time("mongo-save");
   await newlisting.save();
-  console.timeEnd("mongo-save");
 
   req.flash("success", " New Listing Created ");
-  res.redirect("/listings");
+  res.redirect("/listings"); } 
+  catch (err) {
+    console.error("Error in CreateListing:", err);
+    req.flash("error", "Failed to create listing");
+    res.redirect("/listings");
+  }
 };
 
 module.exports.EditListingForm = async (req, res) => {
