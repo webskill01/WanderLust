@@ -7,7 +7,17 @@ const { isLoggedin, isOwner, validateListing } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 const {storage} = require("../cloudconfig.js")
 const multer  = require('multer')
-const upload = multer({storage})
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true); // accept file
+    } else {
+      cb(new Error("Only .jpeg, .jpg and .png formats are allowed!"), false);
+    }
+  }
+});
 
 router
   .route("/")

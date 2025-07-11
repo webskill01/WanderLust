@@ -1,53 +1,171 @@
 <style>
-.search-btn{
-  background-color: #ff385c;
-  color: white;
-  border-radius: 25rem;
-  padding: 0 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  border: none;
-}
-.search-btn:hover{
-  background-color: #ff385c;
-  color: white;
-}
-.search-input{
-  padding: 0.5rem 3rem;
-  border-radius: 25px;
-}
+  /* Custom search button */
+  .search-btn {
+    background-color: #ff385c;
+    color: white;
+    border-radius: 25rem;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    white-space: nowrap;
+  }
+  .search-btn:hover {
+    background-color: #ff385c;
+    color: white;
+  }
+  .nav-link:hover{
+    font-weight: 700;
+  }
+  .navtext{
+    width: 160px;
+  }
+  
+  /* Custom search input */
+  .search-input {
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+  }
+  
+  /* Responsive Search bar shrink */
+  .search-form {
+    max-width: 500px;
+  }
+  
+  @media (max-width: 768px) {
+    .search-form {
+      max-width: 100%;
+    }
+    .search-input {
+      font-size: 0.9rem;
+      padding: 0.4rem 1rem;
+    }
+    .search-btn {
+      font-size: 0.85rem;
+      padding: 0.4rem 0.75rem;
+    }
+  }
+  
+  /* Smooth collapse animation */
+  .collapse-transition {
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    overflow: hidden;
+  }
+  .collapsing {
+    max-height: 0;
+    opacity: 0;
+  }
+  .collapse.show {
+    max-height: 400px;
+    background-color: #fff;
+    opacity: 1;
+  }
+  @media (max-width: 400px) {
+  /* Force search bar to next line and make it smaller */
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 1.5rem;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .search-input {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .search-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    justify-content: center;
+  }
 
 
-</style>
+  .navbar-brand {
+    flex-shrink: 0;
+  }
 
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top mb-2">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+  @media (max-width: 360px) {
+  .search-btn span {
+    display: none;
+  }
+  .navbar{
+    height: 9rem;
+  }
+}
+/* Only on small screens */
+@media (max-width: 768px) {
+  .nav-toggle-custom {
+    position: absolute;
+    right: 1rem;
+    top: 0.6rem;
+    z-index: 10;
+  }
+  .navbar{
+    height: 9rem;
+  }
+
+  .navbar-brand {
+    position: absolute;
+    left: 1rem;
+    top: 0.6rem;
+    z-index: 10;
+  }
+
+  .container-fluid {
+    position: relative;
+    padding-top: 2.5rem; /* make space for brand + toggle */
+  }
+
+  .search-form {
+    margin-top: 1.25rem;
+    width: 100%;
+    gap: 0.5rem;
+  }
+}
+}
+
+  </style>
+  
+<div class="mainnavbar">
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top mb-2 custom-navbar">
+  <div class="container-fluid align-items-center justify-content-between">
+    
+    <!-- Brand -->
+    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+
+    <!-- Search bar: always visible -->
+    <form class="d-flex flex-grow-1 mx-2 search-form" action="/listings" method="GET" role="search">
+      <input class="form-control me-2 search-input" type="search" name="q" placeholder="Search listings" aria-label="Search" />
+      <button class="btn btn-outline search-btn" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i> <span class="d-none d-sm-inline">Search</span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="/listings">Explore</a>
-        </div>
-        <div class="navbar-nav ms-auto">
-          <form class="d-flex" role="search">
-            <input class="form-control me-2 search-input"  type="search" placeholder="Search Destination" aria-label="Search"/>
-              <button class="btn btn-outline search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search </button>
-          </form>
-        </div>
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new">Airbnb Your home</a>
-          <% if (!currUser) { %>
-            <a class="nav-link "href="/signup"><b>SignUp</b></a>
-            <a class="nav-link" href="/login"><b>Log In</b></a>
-          <% } %>
-          <% if (currUser) { %>
-            <a class="nav-link" href="/logout"><b>Log Out</b></a>
-          <% } %>
-        </div>
+    </form>
+
+    <!-- Collapse toggle button -->
+    <button class="navbar-toggler nav-toggle-custom" type="button" data-bs-toggle="collapse"
+  data-bs-target="#navbarNavCollapse" aria-controls="navbarNavCollapse" aria-expanded="false"
+  aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+
+
+    <!-- Collapsed menu items -->
+    <div class="collapse navbar-collapse collapse-transition mt-md-0" id="navbarNavCollapse">
+      <div class="navbar-nav ms-auto text-center">
+        <a class="nav-link " href="/listings">Home</a>
+        <a class="nav-link navtext" href="/listings/new">Airbnb Your Home</a>
+        <% if (!currUser) { %>
+          <a class="nav-link" href="/signup"><b>Sign Up</b></a>
+          <a class="nav-link" href="/login"><b>Log In</b></a>
+        <% } else { %>
+          <a class="nav-link" href="/logout"><b>Log Out</b></a>
+        <% } %>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
+</div>

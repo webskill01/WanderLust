@@ -2,7 +2,7 @@
 
 <style>
   @media (max-width: 576px) {
-    .login-container h2 {
+    .signup-container h2 {
       font-size: 1.5rem;
       text-align: center;
     }
@@ -14,9 +14,9 @@
 </style>
 
 <div class="row mt-4 justify-content-center">
-  <div class="col-12 col-sm-10 col-md-8 col-lg-6 login-container">
-    <h2 class="text-center mb-3">Log In</h2>
-    <form method="post" action="/login" class="needs-validation mb-4" novalidate>
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6 signup-container">
+    <h2 class="text-center mb-3">Sign Up for WanderLust</h2>
+    <form method="post" action="/signup" class="needs-validation mb-4" novalidate>
       <!-- Username -->
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
@@ -28,6 +28,19 @@
           required
         />
         <div class="invalid-feedback">Enter a valid username.</div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Enter a valid email.</div>
       </div>
 
       <!-- Password -->
@@ -44,7 +57,7 @@
       </div>
 
       <!-- Submit -->
-      <button class="btn btn-success sub-btn">Log In</button>
+      <button class="btn btn-success sub-btn">Submit</button>
     </form>
   </div>
 </div>

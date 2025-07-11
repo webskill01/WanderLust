@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
+  require("dotenv").config({ quiet: true });
 }
 const express = require("express");
 const app = express();
@@ -77,7 +77,6 @@ main()
   })
   .catch((err) => console.log(err));
 
-
   
   app.use((req,res,next)=>{
     res.locals.success = req.flash("success")
@@ -85,46 +84,49 @@ main()
     res.locals.currUser = req.user;
     next();
   })
+
 //accessing both the router files
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
 
-// //rendering root page
-// app.get("/", (req, res) => {
-//   res.send("server working well");
-// });
-
-// app.get("/demouser",async (req,res)=>{
-//   let fakeuser = new User({
-//     email :"student@gmail.com",
-//     username:"nitinkumar",
-//   })
-//   let registeredUser = await User.register(fakeuser,"password")
-//   res.send(registeredUser)
-// })
-
 app.get("/",(req,res)=>{
   res.redirect("/listings")
+})
+app.get("/policy",(req,res)=>{
+  res.render("additional/policy.ejs")
+})
+app.get("/terms",(req,res)=>{
+  res.render("additional/terms.ejs")
 })
 
 //error handling for all non-existent pages
 app.all(/.*/, (req, res, next) => {
+  console.log("⚠️  404 caught for:", req.originalUrl);
   next(new expressError(404, "page not found"));
 });
 
-app.use((err, req, res, next) => {
-  console.error("UNHANDLED ERROR:", err);
-  let { statuscode = 500, message = "Something went wrong" } = err;
-  res.status(statuscode).render("error.ejs", { message });
-});
+
 
 //error handling middleware
 app.use((err, req, res, next) => {
-  let { statuscode = 500, message = "something went wrong" } = err;
+  console.error("UNHANDLED ERROR:", err.message);
+  let { statuscode = 500, message = "Something went wrong" } = err;
+
+  // Check for form submission (POST or PUT)
+  if (["POST", "PUT"].includes(req.method)) {
+    req.flash("error", message);
+
+    // Use referer (form page URL) to go back to original page
+    const redirectBackTo = req.headers.referer || "/listings";
+    return res.redirect(redirectBackTo);
+  }
+
+  // Default error page
   res.status(statuscode).render("error.ejs", { message });
 });
+
 
 //listening to port
 app.listen(3000, () => {

@@ -1,5 +1,5 @@
 const Listing = require("../models/listing.js");
-const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mbxGeoCoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeoCoding({ accessToken: mapToken });
 
@@ -27,29 +27,30 @@ module.exports.ViewListing = async (req, res) => {
 };
 
 module.exports.CreateListing = async (req, res) => {
-  try{
-  let response = await geocodingClient.forwardGeocode({
-    query: req.body.listing.location,
-    limit: 1
-  })
-  .send();
-  let url = req.file.path;
-  let filename = req.file.filename;
-  
-  let newlisting = new Listing(req.body.listing);
-  newlisting.owner = req.user._id;
-  newlisting.image = {url,filename};
+  try {
+    let response = await geocodingClient
+      .forwardGeocode({
+        query: req.body.listing.location,
+        limit: 1,
+      })
+      .send();
+    let url = req.file.path;
+    let filename = req.file.filename;
 
-  if (!response.body.features.length) {
-    throw new Error("Invalid location — no geocode result");
-  }
-  newlisting.geometry = response.body.features[0].geometry;
-  
-  await newlisting.save();
+    let newlisting = new Listing(req.body.listing);
+    newlisting.owner = req.user._id;
+    newlisting.image = { url, filename };
 
-  req.flash("success", " New Listing Created ");
-  res.redirect("/listings"); } 
-  catch (err) {
+    if (!response.body.features.length) {
+      throw new Error("Invalid location — no geocode result");
+    }
+    newlisting.geometry = response.body.features[0].geometry;
+
+    await newlisting.save();
+
+    req.flash("success", " New Listing Created ");
+    res.redirect("/listings");
+  } catch (err) {
     console.error("Error in CreateListing:", err);
     req.flash("error", "Failed to create listing");
     res.redirect("/listings");
@@ -64,20 +65,23 @@ module.exports.EditListingForm = async (req, res) => {
     res.redirect("/listings");
   } else {
     let originalImageUrl = listing.image.url;
-    originalImageUrl.replace("/upload","/upload/w_250,e_blur:300/")
-    res.render("listings/edit.ejs", { listing , originalImageUrl });
+    originalImageUrl.replace("/upload", "/upload/w_250,e_blur:300/");
+    res.render("listings/edit.ejs", { listing, originalImageUrl });
   }
 };
 
 module.exports.UpdateListing = async (req, res) => {
   let { id } = req.params;
-  let updatedListing = await Listing.findByIdAndUpdate(id, {...req.body.listing,});
-  if(typeof req.file !== "undefined"){
+  let updatedListing = await Listing.findByIdAndUpdate(id, {
+    ...req.body.listing,
+  });
+  if (typeof req.file !== "undefined") {
     let url = req.file.path;
     let filename = req.file.filename;
-    updatedListing.image = {url,filename};
-    updatedListing.save()
+    updatedListing.image = { url, filename };
+    updatedListing.save();
   }
+  console.log(updatedListing.location)
   req.flash("success", "Listing Updated ");
   res.redirect(`/listings/${id}`);
 };
@@ -88,4 +92,26 @@ module.exports.DestroyListing = async (req, res) => {
   console.log(deleted);
   req.flash("success", "Listing Deleted ");
   res.redirect("/listings");
+};
+
+module.exports.index = async (req, res) => {
+  const { q } = req.query;
+  let listings;
+
+  if (q) {
+    const escapeRegex = str => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    const regex = new RegExp(escapeRegex(q), "i");
+
+    listings = await Listing.find({
+      $or: [
+        { title: regex },
+        { location: regex },
+        { country: regex }
+      ]
+    });
+  } else {
+    listings = await Listing.find({});
+  }
+
+  res.render("listings/index.ejs", { listings, searchQuery: q || "" });
 };
