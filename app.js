@@ -21,24 +21,28 @@ const MongoUrl = "mongodb://127.0.0.1:27017/wanderlust";
 
 // Google OAuth strategy
 passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/auth/google/callback"
+clientID: process.env.GOOGLE_CLIENT_ID,
+clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+callbackURL: "/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
-  try {
-    let user = await User.findOne({ googleId: profile.id });
-    if (!user) {
-      user = await User.create({
-        googleId: profile.id,
-        email: profile.emails[0].value,
-        username: profile.displayName,
-      });
-    }
-    return done(null, user);
-  } catch (err) {
-    return done(err, null);
-  }
+try {
+let user = await User.findOne({ googleId: profile.id });
+if (!user) {
+user = await User.create({
+googleId: profile.id,
+email: profile.emails[0].value,
+username: profile.displayName,
+});
+}
+return done(null, user);
+} catch (err) {
+return done(err, null);
+}
 }));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -69,9 +73,9 @@ const sessionOptions = {
 };
 
 //requiring the routing files
+const userRouter = require("./routes/user.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
-const userRouter = require("./routes/user.js");
 const { error } = require('console');
 
 app.use(express.urlencoded({ extended: true }));
@@ -113,9 +117,9 @@ main()
   })
 
 //accessing both the router files
+app.use("/", userRouter);
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-app.use("/", userRouter);
 
 
 app.get("/",(req,res)=>{

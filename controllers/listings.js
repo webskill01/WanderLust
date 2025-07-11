@@ -5,27 +5,36 @@ const geocodingClient = mbxGeoCoding({ accessToken: mapToken });
 
 //index
 module.exports.index = async (req, res) => {
-  const { q } = req.query;
-  let listings;
+  const { q, category } = req.query;
+  let filter = {};
 
+  // If a search query is provided, perform a case-insensitive search
   if (q) {
-    // If a search query is provided, perform a case-insensitive search
     const escapeRegex = str => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     const regex = new RegExp(escapeRegex(q), "i");
-    listings = await Listing.find({
-      $or: [
-        { title: regex },
-        { location: regex },
-        { country: regex }
-      ]
-    });
-  } else {
-    // If no search query, fetch all listings 
-    listings = await Listing.find({});
+    filter.$or = [
+      { title: regex },
+      { location: regex },
+      { country: regex }
+    ];
   }
-  // Always render the listings page, passing the listings and the search query (if any)
-  res.render("listings/index.ejs", { listings, searchQuery: q || "" });
+
+  // If a category is provided, add it to the filter
+  if (category) {
+    filter.category = category;
+  }
+
+  // Fetch listings based on the filter
+  const listings = await Listing.find(filter);
+
+  // Render the listings page, passing the listings, search query, and selected category
+  res.render("listings/index.ejs", {
+    listings,
+    searchQuery: q || "",
+    selectedCategory: category || ""
+  });
 };
+
 
 module.exports.NewListingForm = (req, res) => {
   res.render("listings/new.ejs");
@@ -55,7 +64,7 @@ module.exports.CreateListing = async (req, res) => {
     let url = req.file.path;
     let filename = req.file.filename;
 
-    let newlisting = new Listing(req.body.listing);
+    let newlisting = new Listing(req.body.listing); // category included here
     newlisting.owner = req.user._id;
     newlisting.image = { url, filename };
 
@@ -74,6 +83,7 @@ module.exports.CreateListing = async (req, res) => {
     res.redirect("/listings");
   }
 };
+
 
 module.exports.EditListingForm = async (req, res) => {
   let { id } = req.params;

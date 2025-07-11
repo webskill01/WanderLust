@@ -19,45 +19,34 @@
   <!-- Collapsible filter panel -->
   <div class="collapse bg-white shadow px-3 py-3 rounded filter-overlay" id="filtersCollapse">
     <div id="filters" class="d-flex flex-wrap gap-3 ">
-      <div class="filter"><i class="fa-solid fa-fire"></i>
-        <p>Trending</p>
-      </div>
-      <div class="filter"><i class="fa-solid fa-bed"></i>
-        <p>Rooms</p>
-      </div>
-      <div class="filter"><i class="fa-solid fa-mountain-city"></i>
-        <p>Iconic Cities</p>
-      </div>
-      <div class="filter"><i class="fa-solid fa-mountain"></i>
-        <p>Mountains</p>
-      </div>
-      <div class="filter"><i class="fa-brands fa-fort-awesome"></i>
-        <p>Castles</p>
-      </div>
-      <div class="filter"><i class="fa-solid fa-person-swimming"></i>
-        <p>Amazing Pools</p>
-      </div>
-      <div class="filter"><i class="fa-solid fa-campground"></i>
-        <p>Camping</p>
-      </div>
-      <div class="filter"><i class="fa-solid fa-cow"></i>
-        <p>Farms</p>
-      </div>
-      <div class="filter"><i class="fa-solid fa-snowflake"></i>
-        <p>Arctic</p>
-      </div>
-      <div class="filter"><i class="fa-solid fa-ship"></i>
-        <p>Boats</p>
-      </div>
-      <div class="filter"><i class="fa-solid fa-key"></i>
-        <p>New</p>
-      </div>
+      <% const categories = [
+        { icon: "fa-fire", label: "Trending" },
+        { icon: "fa-bed", label: "Rooms" },
+        { icon: "fa-mountain-city", label: "Iconic Cities" },
+        { icon: "fa-mountain", label: "Mountains" },
+        { icon: "fa-fort-awesome", label: "Castles", isBrand: true },
+        { icon: "fa-person-swimming", label: "Amazing Pools" },
+        { icon: "fa-campground", label: "Camping" },
+        { icon: "fa-cow", label: "Farms" },
+        { icon: "fa-snowflake", label: "Arctic" },
+        { icon: "fa-ship", label: "Boats" },
+        { icon: "fa-key", label: "New" }
+      ]; %>
+      <% categories.forEach(cat => { %>
+        <div class="filter <%= selectedCategory === cat.label ? 'active' : '' %>">
+          <i class="fa-<%= cat.isBrand ? 'brands' : 'solid' %> <%= cat.icon %>"></i>
+          <p><%= cat.label %></p>
+        </div>
+      <% }) %>
     </div>
   </div>
 </div>
 
 <% if (searchQuery) { %>
   <p class="ms-3">Showing results for "<%= searchQuery %>"</p>
+<% } %>
+<% if (selectedCategory) { %>
+  <p class="ms-3">Showing "<%= selectedCategory %>" listings</p>
 <% } %>
 
 <div class="container-fluid">
@@ -89,5 +78,11 @@
     for (let info of taxInfo) {
       info.style.display = info.style.display !== "inline" ? "inline" : "none";
     }
+  });
+  document.querySelectorAll('.filter').forEach(filterBtn => {
+    filterBtn.addEventListener('click', function() {
+      const category = this.querySelector('p').innerText.trim();
+      window.location.href = `/listings?category=${encodeURIComponent(category)}`;
+    });
   });
 </script>

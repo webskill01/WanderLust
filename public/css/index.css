@@ -200,3 +200,12 @@
       aspect-ratio: 16 / 10;
     }
   }
+  .filter.active {
+    background: #ff385c22;
+    color: #ff385c;
+    font-weight: 700;
+  }
+  .filter.active i {
+    color: #ff385c;
+  }
+  
