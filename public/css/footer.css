@@ -1,0 +1,54 @@
+footer {
+    background: linear-gradient(90deg, #ff385c 0%, #ffb6c1 100%);
+    color: white;
+    padding: 1rem 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+  }
+
+  .f-info {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .f-info-socials a {
+    color: white;
+    margin: 0 0.5rem;
+    font-size: 1.3rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .f-info-socials a:hover {
+    color: #ffe6eb;
+  }
+
+  .f-info-brand {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .f-info-links a {
+    color: white;
+    margin: 0 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .f-info-links a:hover {
+    color: #ffe6eb;
+  }
+
+  @media (max-width: 600px) {
+    .f-info {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }

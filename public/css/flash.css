@@ -1,0 +1,48 @@
+.flash-alert {
+    width: 100%;
+    max-width: 600px;
+    margin: 1.2rem auto 1.2rem auto;
+    font-size: 0.97rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: fadeSlideIn 0.5s ease forwards;
+    border-radius: 0.7rem;
+    box-shadow: 0 2px 12px rgba(255, 56, 92, 0.08);
+    padding: 0.85rem 1.25rem 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Ensure margin between stacked alerts */
+  .flash-alert + .flash-alert {
+    margin-top: 0.5rem;
+  }
+ 
+.alert-dismissible .btn-close {
+    position: absolute;
+    top: -2px;
+    right: 0;
+    z-index: 2;
+    padding: 1.25rem 1rem;
+}
+  /* Smaller screen adjustments */
+  @media (max-width: 576px) {
+    .flash-alert {
+      font-size: 0.89rem;
+      padding: 0.6rem 0.8rem;
+      border-radius: 0.5rem;
+    }
+    .flash-alert .btn-close {
+      top: -0.4rem;
+      right: 0.5rem;
+      scale: 0.9;
+    }
+  }
+
+  /* Fade-in animation keyframes */
+  @keyframes fadeSlideIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

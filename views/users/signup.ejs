@@ -1,63 +1,58 @@
 <% layout('/layouts/boilerplate') -%>
-
-<style>
-  @media (max-width: 576px) {
-    .signup-container h2 {
-      font-size: 1.5rem;
-      text-align: center;
-    }
-
-    .btn.sub-btn {
-      width: 100%;
-    }
-  }
-</style>
-
+<link rel="stylesheet" href="/css/signup.css">
 <div class="row mt-4 justify-content-center">
-  <div class="col-12 col-sm-10 col-md-8 col-lg-6 signup-container">
-    <h2 class="text-center mb-3">Sign Up for WanderLust</h2>
-    <form method="post" action="/signup" class="needs-validation mb-4" novalidate>
-      <!-- Username -->
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          class="form-control"
-          required
-        />
-        <div class="invalid-feedback">Enter a valid username.</div>
-      </div>
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6 d-flex justify-content-center">
+    <div class="signup-container">
+      <h2 class="text-center mb-3">Sign Up for WanderLust</h2>
+      <form method="post" action="/signup" class="needs-validation mb-4" novalidate>
+        <!-- Username -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Enter a valid username.</div>
+        </div>
 
-      <!-- Email -->
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          class="form-control"
-          required
-        />
-        <div class="invalid-feedback">Enter a valid email.</div>
-      </div>
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Enter a valid email.</div>
+        </div>
 
-      <!-- Password -->
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="form-control"
-          required
-        />
-        <div class="invalid-feedback">Enter a valid password.</div>
-      </div>
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Enter a valid password.</div>
+        </div>
 
-      <!-- Submit -->
-      <button class="btn btn-success sub-btn">Submit</button>
-    </form>
+        <!-- Submit -->
+        <button class="btn btn-success sub-btn">Submit</button>
+      </form>
+      <div class="mb-3 goggle">
+        <a href="/auth/google" class="btn btn-google">
+          <i class="fab fa-google"></i> Sign in with Google
+        </a>  
+      </div>    
+      <p>Already a user? Want to log in? <a href="/login">Log In</a></p>
+    </div>
   </div>
 </div>

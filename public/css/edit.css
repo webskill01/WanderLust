@@ -1,0 +1,95 @@
+body {
+    background: linear-gradient(135deg, #ff385c 0%, #ffb6c1 100%);
+    min-height: 100vh;
+  }
+  .edit-container {
+    background: #fff;
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 24px rgba(255, 56, 92, 0.11), 0 1.5px 3px 0 rgba(0,0,0,0.04);
+    padding: 2.5rem 2.5rem 1.5rem 2.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+    width: 100%;
+  }
+  .edit-container h2 {
+    color: #000000;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .form-label {
+    color: #000000;
+    font-weight: 600;
+  }
+  .form-control:focus {
+    border-color: #ff385c;
+    box-shadow: 0 0 0 0.15rem rgba(255, 56, 92, 0.13);
+  }
+  .sub-btn {
+    background: #ff385c;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 2rem;
+    padding: 0.6rem 2.5rem;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(255, 56, 92, 0.09);
+    width: 100%;
+    font-size: 1.07rem;
+  }
+  .sub-btn:hover, .sub-btn:focus {
+    background: #e03150;
+    color: #fff;
+  }
+  .form-text.text-muted {
+    font-size: 0.93rem;
+    color: #888 !important;
+    margin-top: 0.25rem;
+  }
+  .edit-container img {
+    width: 250px;
+    height: auto;
+    border-radius: 0.7rem;
+    box-shadow: 0 2px 10px #ff385c22;
+    margin-top: 0.5rem;
+    margin-bottom: 0.2rem;
+    display: block;
+  }
+  /* Responsive design */
+  @media (max-width: 992px) {
+    .edit-container {
+      padding: 2rem 1.2rem 1.2rem 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .edit-container h2 {
+      font-size: 1.5rem;
+    }
+    .edit-container img {
+      width: 100% !important;
+      max-width: 350px;
+    }
+  }
+  @media (max-width: 576px) {
+    .edit-container {
+      padding: 1rem 0.5rem 0.7rem 0.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.7rem;
+    }
+    .edit-container h2 {
+      font-size: 1.2rem;
+    }
+    .edit-container img {
+      width: 100% !important;
+      max-width: 100%;
+      margin-top: 0.5rem;
+    }
+    .sub-btn {
+      font-size: 1rem;
+      padding: 0.5rem 1.2rem;
+    }
+  }

@@ -1,50 +1,49 @@
 <% layout('/layouts/boilerplate') -%>
 
-<style>
-  @media (max-width: 576px) {
-    .login-container h2 {
-      font-size: 1.5rem;
-      text-align: center;
-    }
-
-    .btn.sub-btn {
-      width: 100%;
-    }
-  }
-</style>
+<link rel="stylesheet" href="/css/login.css">
 
 <div class="row mt-4 justify-content-center">
-  <div class="col-12 col-sm-10 col-md-8 col-lg-6 login-container">
-    <h2 class="text-center mb-3">Log In</h2>
-    <form method="post" action="/login" class="needs-validation mb-4" novalidate>
-      <!-- Username -->
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          class="form-control"
-          required
-        />
-        <div class="invalid-feedback">Enter a valid username.</div>
-      </div>
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6 d-flex justify-content-center">
+    <div class="login-container">
+      <h2 class="text-center mb-3">Log In</h2>
+      <form method="post" action="/login" class="needs-validation mb-4" novalidate>
+        <!-- Username -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Enter a valid username.</div>
+        </div>
 
-      <!-- Password -->
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="form-control"
-          required
-        />
-        <div class="invalid-feedback">Enter a valid password.</div>
-      </div>
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Enter a valid password.</div>
+        </div>
 
-      <!-- Submit -->
-      <button class="btn btn-success sub-btn">Log In</button>
-    </form>
+        <!-- Submit -->
+        <button class="btn btn-success sub-btn">Log In</button>
+      </form>
+      <div class="mb-3 goggle">
+        <a href="/auth/google" class="btn btn-google">
+          <i class="fab fa-google"></i> Log in with Google
+        </a>  
+      </div>
+      <div>    
+        <p>New User? Want to Signup? <a href="/signup">Sign Up</a></p>
+      </div>
+    </div>
   </div>
 </div>

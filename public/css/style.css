@@ -24,7 +24,6 @@ body {
 /* footer  */
 .f-info {
   height: 7rem;
-  background-color: #ebebeb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,12 +39,13 @@ body {
   width: 100%;
   gap: 1rem;
 }
-.f-info-socials i {
-  font-size: 1.3rem;
-}
-.f-info-links a {
+.links{
+  font-size: 1.5rem;
   text-decoration: none;
   color: #222222;
+}
+.f-info-links a {
+  font-size: 1.2rem;
 }
 .f-info-links a:hover {
   text-decoration: underline;

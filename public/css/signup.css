@@ -1,0 +1,126 @@
+body {
+    background: linear-gradient(135deg, #ff385c 0%, #ffb6c1 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  }
+
+  .signup-container {
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(255, 56, 92, 0.12), 0 1.5px 3px 0 rgba(0,0,0,0.04);
+    padding: 2.5rem 2rem 2rem 2rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+    max-width: 430px;
+    width: 100%;
+  }
+
+  .signup-container h2 {
+    color: #000000;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    color: #000000;
+    font-weight: 600;
+  }
+
+  .form-control:focus {
+    border-color: #ff385c;
+    box-shadow: 0 0 0 0.2rem rgba(255, 56, 92, 0.15);
+  }
+
+  .btn.sub-btn {
+    background: #ff385c;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  .btn.sub-btn:hover, .btn.sub-btn:focus {
+    background: #e03150;
+  }
+
+  /* Google Button Styling */
+  .goggle .btn-google {
+    background: #fff;
+    color: #444;
+    border: 1.5px solid #db4437;
+    font-weight: 600;
+    letter-spacing: 1px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    box-shadow: 0 2px 6px rgba(219, 68, 55, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .goggle .btn-google:hover, .goggle .btn-google:focus {
+    background: #ff385c;
+    color: #fff;
+    border-color: #db4437;
+  }
+  .goggle .btn-google i {
+    color: #ff385c;
+    margin-right: 8px;
+    font-size: 1.1em;
+    transition: color 0.2s;
+  }
+  .goggle .btn-google:hover i,
+  .goggle .btn-google:focus i {
+    color: #fff;
+  }
+
+  .signup-container p {
+    text-align: center;
+    margin-top: 1.2rem;
+    color: #444;
+  }
+
+  .signup-container a {
+    color: #ff385c;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .signup-container a:hover {
+    color: #e03150;
+    text-decoration: underline;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .signup-container {
+      padding: 2rem 1.2rem 1.5rem 1.2rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+    .signup-container h2 {
+      font-size: 1.7rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .signup-container {
+      padding: 1.2rem 0.5rem 1rem 0.5rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .signup-container h2 {
+      font-size: 1.3rem;
+      text-align: center;
+    }
+    .btn.sub-btn,
+    .goggle .btn-google {
+      width: 100%;
+      font-size: 1rem;
+    }
+  }
