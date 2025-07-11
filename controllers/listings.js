@@ -5,8 +5,26 @@ const geocodingClient = mbxGeoCoding({ accessToken: mapToken });
 
 //index
 module.exports.index = async (req, res) => {
-  let listings = await Listing.find({});
-  res.render("listings/index.ejs", { listings });
+  const { q } = req.query;
+  let listings;
+
+  if (q) {
+    // If a search query is provided, perform a case-insensitive search
+    const escapeRegex = str => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    const regex = new RegExp(escapeRegex(q), "i");
+    listings = await Listing.find({
+      $or: [
+        { title: regex },
+        { location: regex },
+        { country: regex }
+      ]
+    });
+  } else {
+    // If no search query, fetch all listings 
+    listings = await Listing.find({});
+  }
+  // Always render the listings page, passing the listings and the search query (if any)
+  res.render("listings/index.ejs", { listings, searchQuery: q || "" });
 };
 
 module.exports.NewListingForm = (req, res) => {
@@ -71,37 +89,44 @@ module.exports.EditListingForm = async (req, res) => {
 };
 
 module.exports.UpdateListing = async (req, res) => {
-  let { id } = req.params;
-  let originalListing = await Listing.findById(id);
-  if (!originalListing) {
-    req.flash("error", "Listing You Requested For Does Not Exist");
-    return res.redirect("/listings");
+  const { id } = req.params;
+
+  try {
+    // Geocode the new location from the form
+    let response = await geocodingClient
+      .forwardGeocode({
+        query: req.body.listing.location,
+        limit: 1,
+      })
+      .send();
+      
+    // Prepare updated data
+    let updatedData = {
+      ...req.body.listing,
+      geometry: response.body.features[0].geometry, // Save the new geometry
+    };
+
+    // Update the listing
+    let updatedListing = await Listing.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
+
+    // If a new image is uploaded, update it
+    if (req.file) {
+      updatedListing.image = {
+        url: req.file.path,
+        filename: req.file.filename
+      };
+      await updatedListing.save();
+    }
+
+    req.flash("success", "Listing Updated");
+    res.redirect(`/listings/${id}`);
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "Error updating listing. Please try again.");
+    res.redirect(`/listings/${id}/edit`);
   }
-
-  // Defensive: Ensure location exists
-  if (!originalListing.location) {
-    req.flash("error", "Listing is missing a location and cannot be updated.");
-    return res.redirect("/listings");
-  }
-
-  let updatedData = {
-    ...req.body.listing,
-    location: originalListing.location,
-    geometry: originalListing.geometry
-  };
-
-  let updatedListing = await Listing.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
-
-  if (typeof req.file !== "undefined") {
-    let url = req.file.path;
-    let filename = req.file.filename;
-    updatedListing.image = { url, filename };
-    await updatedListing.save();
-  }
-
-  req.flash("success", "Listing Updated");
-  res.redirect(`/listings/${id}`);
 };
+
 
 
 module.exports.DestroyListing = async (req, res) => {
@@ -112,24 +137,3 @@ module.exports.DestroyListing = async (req, res) => {
   res.redirect("/listings");
 };
 
-module.exports.index = async (req, res) => {
-  const { q } = req.query;
-  let listings;
-
-  if (q) {
-    const escapeRegex = str => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-    const regex = new RegExp(escapeRegex(q), "i");
-
-    listings = await Listing.find({
-      $or: [
-        { title: regex },
-        { location: regex },
-        { country: regex }
-      ]
-    });
-  } else {
-    listings = await Listing.find({});
-  }
-
-  res.render("listings/index.ejs", { listings, searchQuery: q || "" });
-};
