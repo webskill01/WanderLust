@@ -25,14 +25,14 @@
         <!-- Title -->
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
-          <input type="text" name="listing[title]" placeholder="Enter Title" class="form-control" required>
+          <input type="text" id="title" name="listing[title]" placeholder="Enter Title" class="form-control" required>
           <div class="invalid-feedback">Enter a valid title.</div>
         </div>
 
         <!-- Description -->
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
-          <textarea name="listing[description]" placeholder="Enter Description" class="form-control"
+          <textarea name="listing[description]" id="description" placeholder="Enter Description" class="form-control"
             required></textarea>
           <div class="invalid-feedback">Enter a valid description.</div>
         </div>
@@ -40,7 +40,7 @@
         <!-- Image Upload -->
         <div class="mb-3">
           <label for="image" class="form-label">Upload Image</label>
-          <input type="file" name="listing[image]" class="form-control" accept=".jpg, .jpeg, .png" required>
+          <input type="file" id="image" name="listing[image]" class="form-control" accept=".jpg, .jpeg, .png" required>
           <small class="form-text text-muted">Accepted formats: .jpg, .jpeg, .png</small>
         </div>
 
@@ -49,14 +49,14 @@
           <div class="col-12 col-md-4">
             <div class="mb-3">
               <label for="price" class="form-label">Price</label>
-              <input name="listing[price]" placeholder="Enter Price" class="form-control" required>
+              <input name="listing[price]" id="price" placeholder="Enter Price" class="form-control" required>
               <div class="invalid-feedback">Enter a valid price.</div>
             </div>
           </div>
           <div class="col-12 col-md-8">
             <div class="mb-3">
               <label for="country" class="form-label">Country</label>
-              <input type="text" name="listing[country]" placeholder="Enter Country" class="form-control" required>
+              <input type="text" id="country" name="listing[country]" placeholder="Enter Country" class="form-control" required>
               <div class="invalid-feedback">Enter a valid country.</div>
             </div>
           </div>
@@ -64,7 +64,7 @@
         <!-- location -->
           <div class="mb-3">
             <label for="location" class="form-label">Location</label>
-            <input type="text" name="listing[location]" placeholder="Enter Location" class="form-control" required>
+            <input type="text" id="location" name="listing[location]" placeholder="Enter Location" class="form-control" required>
             <div class="invalid-feedback">Enter A Valid Location.</div>
           </div>
           <!-- Submit -->

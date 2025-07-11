@@ -72,19 +72,37 @@ module.exports.EditListingForm = async (req, res) => {
 
 module.exports.UpdateListing = async (req, res) => {
   let { id } = req.params;
-  let updatedListing = await Listing.findByIdAndUpdate(id, {
+  let originalListing = await Listing.findById(id);
+  if (!originalListing) {
+    req.flash("error", "Listing You Requested For Does Not Exist");
+    return res.redirect("/listings");
+  }
+
+  // Defensive: Ensure location exists
+  if (!originalListing.location) {
+    req.flash("error", "Listing is missing a location and cannot be updated.");
+    return res.redirect("/listings");
+  }
+
+  let updatedData = {
     ...req.body.listing,
-  });
+    location: originalListing.location,
+    geometry: originalListing.geometry
+  };
+
+  let updatedListing = await Listing.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
+
   if (typeof req.file !== "undefined") {
     let url = req.file.path;
     let filename = req.file.filename;
     updatedListing.image = { url, filename };
-    updatedListing.save();
+    await updatedListing.save();
   }
-  console.log(updatedListing.location)
-  req.flash("success", "Listing Updated ");
+
+  req.flash("success", "Listing Updated");
   res.redirect(`/listings/${id}`);
 };
+
 
 module.exports.DestroyListing = async (req, res) => {
   let { id } = req.params;
