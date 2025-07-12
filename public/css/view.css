@@ -30,6 +30,8 @@
     #map {
       width: 100%;
       height: 250px;
+      margin: 2rem auto;
+      border-radius: 0.5rem;
     }
 
     .review-form-wrapper {
@@ -61,6 +63,7 @@
     width: 100%;
     height: 300px;
     border-radius: 0.5rem;
+    margin: 2rem auto;
   }
   @media (min-width: 992px) {
   .listing-card {
@@ -91,6 +94,7 @@
     max-width: 900px;
     margin: 2rem auto;
     height: 400px;
+    border-radius: 0.5rem;
   }
 
   .card-img-top.view-img {

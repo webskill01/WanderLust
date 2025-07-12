@@ -34,7 +34,7 @@ router.get('/auth/google/callback',
     failureFlash: true
   }),
   (req, res) => {
-    req.flash("success", "Welcome, you are logged in with Google!");
+    req.flash("success", "Welcome, you are logged to WanderLust !");
     res.redirect('/listings');
   }
 );
