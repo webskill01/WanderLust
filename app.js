@@ -23,7 +23,7 @@ const MongoUrl = "mongodb://127.0.0.1:27017/wanderlust";
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/auth/google/callback"
+  callbackURL: process.env.GOOGLE_RENDER_CALLBACK_URL
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await User.findOne({ googleId: profile.id });
